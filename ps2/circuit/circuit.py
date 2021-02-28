@@ -399,15 +399,15 @@ class Transition:
 
 
 class PriorityQueue:
-    """Array-based priority queue implementation."""
+    """Heap-based priority queue implementation."""
 
     def __init__(self):
         """Initially empty priority queue."""
-        self.queue = []
+        self.heap = []
 
     def __len__(self):
         # Number of elements in the queue.
-        return len(self.queue)
+        return len(self.heap)
 
     def append(self, key):
         """Inserts an element in the priority queue."""
@@ -415,10 +415,10 @@ class PriorityQueue:
             raise ValueError('Cannot insert None in the queue')
 
         # append the element at the end of the array
-        self.queue.append(key)
+        self.heap.append(key)
 
         # then keep calling min_heapify on the parent chain of this node unless min-heap property is satisfied
-        key_position = len(self.queue) - 1
+        key_position = len(self.heap) - 1
         parent_position = self._parent_position(key_position)
         while parent_position is not None and not self._is_min_heap(parent_position):
             self._min_heapify(parent_position)
@@ -426,9 +426,9 @@ class PriorityQueue:
 
     def min(self):
         """The smallest element in the queue."""
-        if len(self.queue) <= 0:
+        if len(self.heap) <= 0:
             return None
-        return self.queue[0]
+        return self.heap[0]
 
     def pop(self):
         """Removes the minimum element in the queue.
@@ -436,19 +436,19 @@ class PriorityQueue:
         Returns:
             The value of the removed element.
         """
-        if len(self.queue) <= 0:
+        if len(self.heap) <= 0:
             return None
 
         # swap the first element with the last element
-        self.queue[-1], self.queue[0] = self.queue[0], self.queue[-1]
+        self.heap[-1], self.heap[0] = self.heap[0], self.heap[-1]
 
         # reduce the size of array by 1 and save the min element
-        popped_key = self.queue.pop()
+        popped_key = self.heap.pop()
 
         # call _min_heapify from the root down to the leaves following the swapped item path,
         # unless min-heap property is satisfied
         swapped_position = 0
-        if len(self.queue) > 0:
+        if len(self.heap) > 0:
             while not self._is_min_heap(swapped_position):
                 swapped_position = self._min_heapify(swapped_position)
 
@@ -467,7 +467,7 @@ class PriorityQueue:
     def _left_child_position(self, i):
         p = (i * 2) + 1
 
-        if p >= len(self.queue):
+        if p >= len(self.heap):
             return None
 
         return p
@@ -475,45 +475,45 @@ class PriorityQueue:
     def _right_child_position(self, i):
         p = (i * 2) + 2
 
-        if p >= len(self.queue):
+        if p >= len(self.heap):
             return None
 
         return p
 
     def _is_min_heap(self, i):
-        self_key = self.queue[i]
+        self_key = self.heap[i]
 
         left_child_pos = self._left_child_position(i)
-        if left_child_pos is not None and not self_key <= self.queue[left_child_pos]:
+        if left_child_pos is not None and not self_key <= self.heap[left_child_pos]:
             return False
 
         right_child_pos = self._right_child_position(i)
-        if right_child_pos is not None and not self_key <= self.queue[right_child_pos]:
+        if right_child_pos is not None and not self_key <= self.heap[right_child_pos]:
             return False
 
         return True
 
     def _min_heapify(self, i):
-        min_key = self.queue[i]
+        min_key = self.heap[i]
         min_key_position = i
 
         left_child_pos = self._left_child_position(i)
-        if left_child_pos is not None and self.queue[left_child_pos] < min_key:
-            min_key = self.queue[left_child_pos]
+        if left_child_pos is not None and self.heap[left_child_pos] < min_key:
+            min_key = self.heap[left_child_pos]
             min_key_position = left_child_pos
 
         right_child_pos = self._right_child_position(i)
-        if right_child_pos is not None and self.queue[right_child_pos] < min_key:
-            min_key = self.queue[right_child_pos]   # this line is not really needed
+        if right_child_pos is not None and self.heap[right_child_pos] < min_key:
+            min_key = self.heap[right_child_pos]   # this line is not really needed
             min_key_position = right_child_pos
 
         # swap current item with minimum item
-        self.queue[i], self.queue[min_key_position] = self.queue[min_key_position], self.queue[i]
+        self.heap[i], self.heap[min_key_position] = self.heap[min_key_position], self.heap[i]
 
         return min_key_position
 
     def __repr__(self):
-        return 'queue: {}, length: {}'.format(self.queue, len(self))
+        return 'heap: {}, length: {}'.format(self.heap, len(self))
 
 
 class Simulation:
