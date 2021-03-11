@@ -709,7 +709,7 @@ if __name__ == '__main__':
         sim.outputs_to_file(sys.stdout)
 
     # Testing:
-    # queue = PriorityQueue()
+    # queue = HeapPriorityQueue()
     # print(queue)
     # print(queue.min())
     # print(queue.pop())
