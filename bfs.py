@@ -67,7 +67,7 @@ def bfs(graph, source_node):
 
     nodes_discovered = deque()
 
-    # source_node is already discovered
+    # source_node is pre-discovered
     result = {source_node: {'level': 0, 'parent': None}}
     nodes_discovered.append(source_node)
 
